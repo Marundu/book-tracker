@@ -3,45 +3,46 @@ from flask import render_template
 from flask import redirect
 
 from app import app, db
-from models import Task
+from models import Books
 
 @app.route('/')
-def tasks_list():
-    tasks=Task.query.all()
-    return render_template('list.html', tasks=tasks)
+def books_list():
+    books=Books.query.all()
+    return render_template('list.html', books=books)
 
-@app.route('/task', methods=['POST'])
-def add_task():
-    content=request.form['content']
-    if not content:
+@app.route('/book', methods=['POST'])
+def add_book():
+    book_title=request.form['book_title']
+    author=request.form['author']
+    if not book_title and not author:
         return 'Error'
     
-    task=Task(content)
+    book=Books(book_title, author)
     
-    db.session.add(task)
+    db.session.add(book)
     db.session.commit()
     return redirect('/')
 
-@app.route('/done/<int:task_id>')
-def resolve_task(task_id):
-    task=Task.query.get(task_id)
+@app.route('/done/<int:book_id>')
+def read_book(book_id):
+    book=Books.query.get(book_id)
     
-    if not task:
+    if not book:
         return redirect('/')
-    if task.done:
-        task.done=False
+    if book.done:
+        book.done=False
     else:
-        task.done=True
+        book.done=True
     
     db.session.commit()
     return redirect('/')
 
-@app.route('/delete/<int:task_id>')
-def delete_task(task_id):
-    task=Task.query.get(task_id)
-    if not task:
+@app.route('/delete/<int:book_id>')
+def delete_book(book_id):
+    book=Books.query.get(book_id)
+    if not book:
         return redirect('/')
     
-    db.session.delete(task)
+    db.session.delete(book)
     db.session.commit()
     return redirect('/')

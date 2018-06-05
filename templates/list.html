@@ -1,7 +1,7 @@
 <html>
 <head>
 
-  <title>Simple Flask To-Do List</title>
+  <title>Simple Flask Reading/ Read Tracker</title>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,32 +16,33 @@
 
 <body>
 
-  <h2>Task List</h2>
+  <h2>Book List</h2>
 
   <ul>
-    {% for task in tasks %}
+    {% for book in books %}
     <li>
-      {% if task.done %}
+      {% if book.done %}
       <strike>
         {% endif %}
         
-        {{ task.content }}
+        {{ book.book_title }} by {{ book.author }}
         
-        {% if task.done %}
+        {% if book.done %}
       </strike>
       {% endif %}
       
-      <a href="/done/{{ task.id }}"> Mark as Done </a> |
-      <a href="/delete/{{ task.id }}"> Delete Task </a>
+      <a href="/done/{{ book.id }}"> Mark as Read </a> |
+      <a href="/delete/{{ book.id }}"> Delete Book </a>
     </li>
 
     {% endfor %}
 
   </ul>
 
-  <form action="/task" method="post">
-    <p><input type="text" name="content"></p>
-    <input type="submit" value="Add Task">
+  <form action="/book" method="post">
+    <p>Book<input type="text" name="book_title"></p>
+    <p>Author<input type="text" name="author"></p>
+    <input type="submit" value="Add Book">
   </form>
 
 </body>
