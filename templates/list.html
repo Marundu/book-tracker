@@ -18,7 +18,7 @@
 
   <h2>Book List</h2>
 
-  <ul>
+  <ol>
     {% for book in books %}
     <li>
       {% if book.done %}
@@ -37,7 +37,7 @@
 
     {% endfor %}
 
-  </ul>
+  </ol>
 
   <form action="/book" method="post">
     <p>Book<input type="text" name="book_title"></p>
