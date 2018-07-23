@@ -15,4 +15,4 @@ class Book(db.Model):
         self.done=False
     
     def __repr__(self):
-        return '<Book: {0}>'.format(self.book_title)
+        return '<Book: {0}>'.format(self.title)
