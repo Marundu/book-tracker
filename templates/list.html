@@ -25,7 +25,7 @@
       <strike>
         {% endif %}
         
-        {{ book.book_title }} by {{ book.author }}
+        {{ book.title }} by {{ book.author }} // {{ book.category }} 
         
         {% if book.done %}
       </strike>
@@ -40,10 +40,10 @@
   </ol>
 
   <form action="/book" method="post">
-    <p>Book<input type="text" name="book_title"></p>
+    <p>Book<input type="text" name="title"></p>
     <p>Author<input type="text" name="author"></p>
+    <p>Category<input type="text" name="category"></p>
     <input type="submit" value="Add Book">
   </form>
-
 </body>
 </html>
