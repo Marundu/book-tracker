@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="user-registration">
+  <div class="page-header">
+    <h2>Register Your Account</h2>
+  </div>
+<form action="{{ url_for('register') }}" method="post">
+  {{ form.csrf_token }}
+  <dl>
+    <!-- <input type="text" placeholder="Enter your email address" name="email" value="{{ request.form.email }}">
+    <input type="text" placeholder="Pick a username" name="username" value="{{ request.form.username }}">
+    <input type="text" placeholder="Pick a password" name="password" value="{{ request.form.password }}"> -->
+    <!-- <input type="text" placeholder="Confirm your password" name="password" value="{{ request.form.confirm }}">  -->
+  {{ form.email.label }}
+  {{ form.email }}
+
+  {{ form.username.label }}
+  {{ form.username }}
+  
+  {{ form.password.label }}
+  {{ form.password }}
+    
+  </dl>
+  <button class="btn btn-sm btn-success" type="submit">Register</button>
+</form>
+</div>
+
+{% endblock %}

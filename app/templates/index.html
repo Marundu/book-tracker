@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+  <h2>Welcome to the Flask Reading Tracker</h2>
+
+  <h2><a href="{{ url_for('register') }}">Register</a></h2>
+  <h2><a href="{{ url_for('login') }}">Log In</a></h2>
+  <hr>
+
+{% endblock %}

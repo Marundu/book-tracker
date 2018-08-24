@@ -1,0 +1,77 @@
+<html>
+<head>
+
+  <title>Simple Flask Reading/ Read Tracker</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css">
+  <link rel="stylesheet" href="../static/css/milligram/dist/milligram.min.css">
+  
+  <!-- Layout Improvements -->
+  <link rel="stylesheet" href="../static/css/override.css">
+  
+</head>
+
+<body>
+
+  {% if current_user.is_anonymous %}
+  <a href="{{ url_for('login') }}">Login</a>
+  {% else %}
+  <a href="{{ url_for('logout') }}">Logout</a>
+  {% endif %}
+
+  <h2>Book List</h2>
+
+  <ol>
+    {% for book in books %}
+    <li>
+      {% if book.done %}
+      <strike>
+        {% endif %}
+        
+        {{ book.title }} by {{ book.author }} // {{ book.category }} 
+        
+        {% if book.done %}
+      </strike>
+      {% endif %}
+      
+      <a href="/done/{{ book.id }}"> Mark as Read </a> |
+      <a href="/delete/{{ book.id }}"> Delete Book </a>
+    </li>
+
+    {% endfor %}
+
+  </ol>
+
+  <form action="/book" method="post">
+    <p>Book<input type="text" name="title"></p>
+    <p>Author<input type="text" name="author"></p>
+    <p>Category</p>
+    
+    <select type="text" name="category">
+      <option>Biography</option>
+      <option>Business</option>
+      <option>Classics</option>
+      <option>Essays</option>
+      <option>Fiction</option>
+      <option>History</option>
+      <option>Horror</option>
+      <option>Humour</option>
+      <option>Memoir</option>
+      <option>Nonfiction</option>
+      <option>Philosophy</option>
+      <option>Poetry</option>
+      <option>Psychology</option>
+      <option>Romance</option>
+      <option>Science</option>
+      <option>Self-Help</option>
+      <option>Religion/ Spirituality</option>
+      <option>Travel</option>
+    </select>
+
+    <input type="submit" value="Add Book">
+  </form>
+</body>
+</html>

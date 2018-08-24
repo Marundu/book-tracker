@@ -1,20 +1,14 @@
-<html>
-<head>
+{% extends "layout.html" %}
 
-  <title>Simple Flask Reading/ Read Tracker</title>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css">
-  <link rel="stylesheet" href="../static/css/milligram/dist/milligram.min.css">
-  
-  <!-- Layout Improvements -->
-  <link rel="stylesheet" href="../static/css/override.css">
-  
-</head>
+{% block content %}
 
 <body>
+
+  {% if current_user.is_anonymous %}
+  <a href="{{ url_for('login') }}">Login</a>
+  {% else %}
+  <p>Welcome, {{ current_user.username }}! <a href="{{ url_for('logout') }}">Logout</a>
+  {% endif %}
 
   <h2>Book List</h2>
 
@@ -25,7 +19,7 @@
       <strike>
         {% endif %}
         
-        {{ book.title }} by {{ book.author }} // {{ book.category }} 
+        {{ book.title }} by {{ book.author }} // {{ book.category }} // Added on {{ book.added_on }}
         
         {% if book.done %}
       </strike>
@@ -39,7 +33,7 @@
 
   </ol>
 
-  <form action="/book" method="post">
+  <form action="/add_book" method="post">
     <p>Book<input type="text" name="title"></p>
     <p>Author<input type="text" name="author"></p>
     <p>Category</p>
@@ -65,7 +59,8 @@
       <option>Travel</option>
     </select>
 
-    <input type="submit" value="Add Book">
+    <input class="button-primary" value="Add Book" type="submit">
+  </fieldset>
   </form>
-</body>
-</html>
+
+{% endblock %}

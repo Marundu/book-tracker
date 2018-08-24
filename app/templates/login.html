@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="user-registration">
+  <div class="page-header">
+    <h2>Log In</h2>
+  </div>
+    <form action="{{ url_for('login') }}" method="post">
+      {{ form.csrf_token }}
+      <dl>
+        <!-- <input type="text" placeholder="Username" name="username" value="{{ request.form.username }}">
+        <input type="text" placeholder="Password" name="password" value="{{ request.form.password }}"> -->
+        {{ form.username.label }}
+        {{ form.username }}
+
+        {{ form.password.label }}
+        {{ form.password }}
+        
+        <label>{{ form.remember_me() }} Remember Me? </label>
+      </dl>
+      <button class="btn btn-sm btn-success" type="submit">Log In</button>
+
+    </form>
+    <br>
+    <em>Don't have an account? </em><a href="/register">Join the awesomeness</a>
+  </div>
+
+{% endblock %}
