@@ -11,11 +11,13 @@ class User(UserMixin, db.Model):
     email=db.Column(db.String(100), index=True, unique=True)
     username=db.Column(db.String(100), index=True, unique=True)
     password_hash=db.Column(db.String(128))
+    about_me=db.Column(db.String(140))
     
-    def __init__(self, email, username, password_hash):
+    def __init__(self, email, username, password_hash, about_me):
         self.email=email
         self.username=username
         self.password_hash=password_hash
+        self.about_me=about_me
 
     def __repr__(self):
         return '<User: Username {0}, Email {1}'.format(self.username, self.email)
