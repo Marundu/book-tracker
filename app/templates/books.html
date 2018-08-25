@@ -7,7 +7,7 @@
   {% if current_user.is_anonymous %}
   <a href="{{ url_for('login') }}">Login</a>
   {% else %}
-  <p>Welcome, {{ current_user.username }}! <a href="{{ url_for('logout') }}">Logout</a>
+  <p>Welcome, <a href="{{ url_for('user_profile') }}"> {{ current_user.username }} </a>! <a href="{{ url_for('logout') }}">Logout</a>
   {% endif %}
 
   <h2>Book List</h2>

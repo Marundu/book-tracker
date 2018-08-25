@@ -123,3 +123,8 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+@app.route('/user_profile')
+@login_required
+def user_profile():
+    return render_template('user_profile.html')
