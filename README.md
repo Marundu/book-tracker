@@ -8,3 +8,7 @@ Modified from Mikica Ivosevic's [Flask Simple To-Do](https://github.com/mikicaiv
 - Add ability to have books to be read: in addition to _books being read_ and _books completed_, there will be an option for future reads.  
 - Thumbnails for books.  
 - Integration with Amazon or GoodReads or a books' API provider.  
+
+### Image Credit ###
+
+[Photo by Annie Spratt on Unsplash](https://unsplash.com/@anniespratt).  
