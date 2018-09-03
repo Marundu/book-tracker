@@ -1,25 +1,32 @@
 <html>
 <head>
 
-  <title>Flask Reading Tracker</title>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
-  <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
-  <link rel="stylesheet" href="../static/css/milligrammod.css">
-  
+<title>Flask Reading Tracker</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+<link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
+<link rel="stylesheet" href="../static/css/milligrammod.css">
+
 </head>
 
 <body>
-  {% if current_user.is_anonymous %}
-  <a href="{{ url_for('login') }}">Login</a>
-  {% else %}
-  <p>Welcome, <a href="{{ url_for('user_profile') }}"> {{ current_user.username }}</a> // <a href="{{ url_for('books') }}">Books</a>
+{% if current_user.is_anonymous %}
+<a href="{{ url_for('login') }}">Login</a>
+{% else %}
+<p>Welcome, <a href="{{ url_for('user_profile') }}"> {{ current_user.username }}</a> // <a href="{{ url_for('books') }}">Books</a>
   // <a href="{{ url_for('logout') }}">Logout</a>
   {% endif %}
 
   {% block content %} {% endblock %}
+
+  <div class="footer">
+    <hr>
+    <!-- Automatically change date and year -->
+    <p>Marundu &copy; - <script type="text/JavaScript"> document.write(new Date().getFullYear()); </script></p>
+    
+  </div>
 
 </body>
 </html>

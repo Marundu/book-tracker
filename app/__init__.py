@@ -15,4 +15,4 @@ login.login_view='login'
 
 migrate=Migrate(app, db)
 
-from app import views, models
+from app import errors, models, views

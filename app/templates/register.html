@@ -6,21 +6,30 @@
   <div class="page-header">
     <h2>Register Your Account</h2>
   </div>
-<form action="{{ url_for('register') }}" method="post">
-  {{ form.csrf_token }}
-  <dl>
+  <form action="{{ url_for('register') }}" method="post">
+    {{ form.csrf_token }}
+    <dl>
     <!-- <input type="text" placeholder="Enter your email address" name="email" value="{{ request.form.email }}">
     <input type="text" placeholder="Pick a username" name="username" value="{{ request.form.username }}">
     <input type="text" placeholder="Pick a password" name="password" value="{{ request.form.password }}"> -->
     <!-- <input type="text" placeholder="Confirm your password" name="password" value="{{ request.form.confirm }}">  -->
-  {{ form.email.label }}
-  {{ form.email }}
+    {{ form.email.label }}
+    {{ form.email }}
+    {% for error in form.email.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
 
-  {{ form.username.label }}
-  {{ form.username }}
-  
-  {{ form.password.label }}
-  {{ form.password }}
+    {{ form.username.label }}
+    {{ form.username }}
+    {% for error in form.username.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+    
+    {{ form.password.label }}
+    {{ form.password }}
+    {% for error in form.password.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
     
   </dl>
   <button class="btn btn-sm btn-success" type="submit">Register</button>
