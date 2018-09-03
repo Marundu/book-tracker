@@ -86,20 +86,19 @@ def delete_book(book_id):
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('books'))
     form=RegisterForm()
-    if request.method=='POST':
-        if form.validate_on_submit():
-            try:
-                new_user=User(form.username.data, form.email.data, form.password.data)
-                new_user.authenticated=True
-                db.session.add(new_user)
-                db.session.commit()
+    if form.validate_on_submit():
+        new_user=User(username=form.username.data, email=form.email.data)
+        new_user.set_password(form.password.data)
+        db.session.add(new_user)
+        db.session.commit()
 
-                login_user(new_user)
-                return redirect(url_for('books'))
-            except IntegrityError:
-                db.session.rollback()
-                return 'There was an error in adding the entry'
+        flash('Karibu, reader!')
+
+        #login_user(new_user)
+        return redirect(url_for('books'))
     return render_template('register.html', form=form)
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -123,6 +122,7 @@ def login():
 @login_required
 def logout():
     logout_user()
+    flash('Until the next time, reader!')
     return redirect(url_for('index'))
 
 @app.route('/user_profile')
@@ -140,7 +140,7 @@ def edit_profile():
         db.session.commit()
         flash('Your changes have been saved!')
         return redirect(url_for('user_profile'))
-    
+
     elif request.method=='GET':
         form.username.data=current_user.username
         form.about_me.data=current_user.about_me

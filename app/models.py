@@ -12,19 +12,19 @@ class User(UserMixin, db.Model):
     username=db.Column(db.String(100), index=True, unique=True)
     password_hash=db.Column(db.String(128))
     about_me=db.Column(db.String(140))
-    
-    def __init__(self, email, username, password_hash, about_me):
-        self.email=email
-        self.username=username
-        self.password_hash=password_hash
-        self.about_me=about_me
+
+    # def __init__(self, email, username, password_hash, about_me):
+    #     self.email=email
+    #     self.username=username
+    #     self.password_hash=password_hash
+    #     self.about_me=about_me
 
     def __repr__(self):
         return '<User: Username {0}, Email {1}'.format(self.username, self.email)
 
     def set_password(self, password):
         self.password_hash=generate_password_hash(password)
-    
+
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
@@ -39,16 +39,16 @@ class Book(db.Model):
     added_on=db.Column(db.DateTime, index=True, default=datetime.utcnow)
     done=db.Column(db.Boolean, default=False)
     user_id=db.Column(db.Integer, db.ForeignKey('users.id'))
-    
-    def __init__(self, title, author, category, added_on, done):
-        self.title=title
-        self.author=author
-        self.category=category
-        self.added_on=added_on
-        self.done=done
+
+    # def __init__(self, title, author, category, added_on, done):
+    #     self.title=title
+    #     self.author=author
+    #     self.category=category
+    #     self.added_on=added_on
+    #     self.done=done
 
     def __repr__(self):
-        return '<Book: Title - {0}, Author - {1}, Category - {2}, Added On: {3}, Done - {4} >'.format(self.title, self.author, self.category, self.added_on, self.done)
+        return '<Book: Title - {0}, Author - {1}, Category - {2}>'.format(self.title, self.author, self.category)
 
 # class Category(db.Model):
 
