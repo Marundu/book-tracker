@@ -1,0 +1,10 @@
+#! /bin/bash
+
+# I got tired of having to type out the below commands
+# whenever I rebooted my machine or moved from working
+# on another app
+
+export FLASK_APP=booktracker.py
+
+flask run
+
