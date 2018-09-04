@@ -27,7 +27,8 @@ body {
   margin: 0 auto;
   color: #ffffff;
   font-family: 'Roboto', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
-  font-size: 1.6em;
+  /*font-size: 1.6em;*/
+  font-size: 18px;
   font-weight: 300;
   letter-spacing: .01em;
   line-height: 1.6;
