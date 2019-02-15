@@ -1,8 +1,8 @@
-"""Create users and books table
+"""users and books table
 
-Revision ID: 49afc2e82341
+Revision ID: d610d5e95f5a
 Revises: 
-Create Date: 2018-08-22 18:05:10.428872
+Create Date: 2019-02-08 10:14:12.367972
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '49afc2e82341'
+revision = 'd610d5e95f5a'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -23,6 +23,7 @@ def upgrade():
     sa.Column('email', sa.String(length=100), nullable=True),
     sa.Column('username', sa.String(length=100), nullable=True),
     sa.Column('password_hash', sa.String(length=128), nullable=True),
+    sa.Column('about_me', sa.String(length=140), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_users_email'), 'users', ['email'], unique=True)
@@ -31,7 +32,6 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('title', sa.String(length=100), nullable=True),
     sa.Column('author', sa.String(length=50), nullable=True),
-    sa.Column('category', sa.String(length=50), nullable=True),
     sa.Column('added_on', sa.DateTime(), nullable=True),
     sa.Column('done', sa.Boolean(), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),

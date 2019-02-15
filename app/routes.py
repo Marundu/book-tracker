@@ -1,5 +1,6 @@
 from app import app, db
-from app.forms import EditProfileForm, RegisterForm, LoginForm
+from app.forms import BookForm, CategoryForm, EditProfileForm, RegisterForm, LoginForm
+# from app.models import Book, Category, User
 from app.models import Book, User
 
 from datetime import datetime
@@ -20,25 +21,34 @@ def index():
 @app.route('/books')
 @login_required
 def books():
-    books=Book.query.all()
+    books=Book.query.filter_by(user_id=current_user.id)#.first_or_404()
     return render_template('books.html', books=books)
 
-@app.route('/add_book', methods=['POST'])
+
+@app.route('/add_book', methods=['GET', 'POST'])
 @login_required
 def add_book():
-    title=request.form['title']
-    author=request.form['author']
-    category=request.form['category'] # drop down of preset categories
-    added_on=datetime.utcnow()
-    done=False
-    #if not title and not author and not category:
-        #return 'Error'
+    form=BookForm()
+    if request.method=='POST':
+        if form.validate_on_submit():
+            book=Book(
+                title=form.title.data,
+                author=form.author.data,
+                # category=form.category.data,
+                # added_on=form.added_on.data,
+                # done=form.done.data,
+                user_id=current_user
+                )
 
-    book=Book(title, author, category, added_on, done)
+            db.session.add(book)
+            db.session.commit()
+            flash('Book added')
+            return redirect(url_for('books'))
+        else:
+            flash('ERROR. The book not added.')
 
-    db.session.add(book)
-    db.session.commit()
-    return redirect(url_for('books'))
+    return render_template('add_book.html', form=form)
+
 
 @app.route('/done/<int:book_id>')
 @login_required
@@ -55,7 +65,7 @@ def read_book(book_id):
     db.session.commit()
     return redirect(url_for('books'))
 
-@app.route('/delete/<int:book_id>')
+@app.route('/delete_book/<int:book_id>')
 @login_required
 def delete_book(book_id):
     book=Book.query.get(book_id)
@@ -64,25 +74,47 @@ def delete_book(book_id):
 
     db.session.delete(book)
     db.session.commit()
+    flash('Book deleted')
+
     return redirect(url_for('books'))
 
-# @app.route('/add_category', methods=['POST'])
-# @login_required
-# def add_category():
-#     category=request.form['category']
-#     category=Category(category)
 
-#     db.session.add(category)
-#     db.session.commit()
+@app.route('/categories')
+@login_required
+def categories():
+    categories=Category.query.all(user_id=current_user.id)
+    return render_template('categories.html', categories=categories)
 
-#     return redirect(url_for('books'))
 
-# @app.route('/categories')
-# @login_required
-# def view_categories(category_id):
-#     categories=Category.query.all()
+@app.route('/add_category', methods=['POST'])
+@login_required
+def add_category():
+    form=CategoryForm()
+    if form.validate_on_submit():
+        category=Category(category=form.category.data, user_id=current_user)
 
-#     return render_template('categories.html', categories=categories)
+        db.session.add(category)
+        sb.session.commit()
+        flash('Category added')
+
+        return redirect(url_for('categories'))
+
+    return render_template('categories.html', categories=categories, form=form)
+
+
+@app.route('/delete_category/<int:category_id>', methods=['GET', 'POST'])
+@login_required
+def delete_category(category_id):
+    category=Category.query.get(category_id)
+    if not category:
+        return redirect('/categories')
+
+    db.session.delete(category)
+    db.session.commit()
+    flash('Category deleted')
+
+    return redirect(url_for('categories'))
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -101,6 +133,7 @@ def register():
         return redirect(url_for('books'))
     return render_template('register.html', form=form)
 
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -118,6 +151,7 @@ def login():
         return redirect(next_page)
     return render_template('login.html', form=form)
 
+
 @app.route('/logout')
 @login_required
 def logout():
@@ -125,10 +159,12 @@ def logout():
     flash('Until the next time, reader!')
     return redirect(url_for('index'))
 
+
 @app.route('/user_profile')
 @login_required
 def user_profile():
     return render_template('user_profile.html')
+
 
 @app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required

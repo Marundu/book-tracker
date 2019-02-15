@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<h2>Add Category</h2>
+
+{% if form %}
+    
+    <form action="{{ url_for('add_category') }}" method="post">
+      {{ form.hidden_tag() }}
+      
+        {{ form.category.label }}<br>
+        {{ form.category() }}<br>
+        
+        {{ form.submit() }}
+
+    </form>
+    
+    {% endif %}
+
+<h2>Categories</h2>
+
+  <ol>
+
+    {% for category in categories %}
+
+    <li>
+      {{ category.category }}
+      <a href="/delete_category/{{ category.id }}"> Delete Category</a>
+    </li>
+
+    {% endfor %}
+
+  </ol>
+
+{% endblock %}

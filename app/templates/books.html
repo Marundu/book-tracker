@@ -4,57 +4,28 @@
 
 <body>
   
-  <h2>Book List</h2>
+  <h2>Book List for {{ current_user.username }}</h2>
 
   <ol>
     {% for book in books %}
     <li>
       {% if book.done %}
-      <strike>
-        {% endif %}
+        <strike>
+      {% endif %}
         
-        {{ book.title }} by {{ book.author }} // {{ book.category }} // Added on {{ book.added_on }}
+      <!-- {{ book.title }} by {{ book.author }} // {{ book.category }} // Added on {{ book.added_on }} -->
+      {{ book.title }} by {{ book.author }} // Added on {{ book.added_on }}
         
-        {% if book.done %}
-      </strike>
+      {% if book.done %}
+        </strike>
       {% endif %}
       
       <a href="/done/{{ book.id }}"> Mark as Read </a> |
-      <a href="/delete/{{ book.id }}"> Delete Book </a>
+      <a href="/delete_book/{{ book.id }}"> Delete Book </a>
     </li>
 
     {% endfor %}
 
   </ol>
-
-  <form action="/add_book" method="post">
-    <p>Book<input type="text" name="title"></p>
-    <p>Author<input type="text" name="author"></p>
-    <p>Category</p>
-    
-    <select type="text" name="category">
-      <option>Biography</option>
-      <option>Business</option>
-      <option>Classics</option>
-      <option>Essays</option>
-      <option>Fiction</option>
-      <option>History</option>
-      <option>Horror</option>
-      <option>Humour</option>
-      <option>Memoir</option>
-      <option>Nonfiction</option>
-      <option>Philosophy</option>
-      <option>Poetry</option>
-      <option>Psychology</option>
-      <option>Romance</option>
-      <option>Science</option>
-      <option>Self-Help</option>
-      <option>Religion/ Spirituality</option>
-      <option>Travel</option>
-    </select>
-
-    <input class="button-primary" value="Add Book" type="submit">
-  </fieldset>
-  </form>
 
 {% endblock %}

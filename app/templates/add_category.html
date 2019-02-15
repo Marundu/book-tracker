@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+{% if form %}
+    
+    <form action="{{ url_for('add_category') }}" method="post">
+      {{ form.hidden_tag() }}
+      
+        {{ form.category.label }}<br>
+        {{ form.category() }}<br>
+        
+        {{ form.submit() }}
+
+    </form>
+    
+    {% endif %}
+
+{% endblock %}

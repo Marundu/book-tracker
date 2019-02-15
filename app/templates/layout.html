@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
 <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
-<link rel="stylesheet" href="../static/css/milligrammod.css">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/milligrammod.css') }}">
 
 </head>
 
@@ -15,7 +15,7 @@
 {% if current_user.is_anonymous %}
 <a href="{{ url_for('login') }}">Login</a>
 {% else %}
-<p>Welcome, <a href="{{ url_for('user_profile') }}"> {{ current_user.username }}</a> // <a href="{{ url_for('books') }}">Books</a>
+<p>Welcome, <a href="{{ url_for('user_profile') }}"> {{ current_user.username }}</a> // <a href="{{ url_for('books') }}">Books</a> // <a href="{{ url_for('add_book') }}">Add book</a>
   // <a href="{{ url_for('logout') }}">Logout</a>
   {% endif %}
 
