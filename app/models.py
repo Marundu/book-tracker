@@ -34,13 +34,6 @@ class Book(db.Model):
     added_on=db.Column(db.DateTime, index=True, default=datetime.utcnow)
     done=db.Column(db.Boolean, default=False)
     user_id=db.Column(db.Integer, db.ForeignKey('users.id'))
-    
-    def __init__(self, title, author, added_on, done, user_id):
-        self.title=title
-        self.author=author
-        self.added_on=added_on
-        self.done=done
-        self.user_id=user_id
 
     def __repr__(self):
         # return '<Book: Title - {0}, Author - {1}, Category - {2}>'.format(self.title, self.author, self.category)
@@ -53,7 +46,6 @@ class Book(db.Model):
 #     id=db.Column(db.Integer, primary_key=True)
 #     category=db.Column(db.String(30))
 #     book_id=db.Column(db.Integer, db.ForeignKey('books.id'))
-#     user_id=db.Column(db.Integer, db.ForeignKey('users.id'))
 
 #     def __repr__(self):
 #         return '<Category: {0}>'.format(self.category)

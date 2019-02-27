@@ -1,6 +1,5 @@
 from app import app, db
 from app.forms import BookForm, CategoryForm, EditProfileForm, RegisterForm, LoginForm
-# from app.models import Book, Category, User
 from app.models import Book, User
 
 from datetime import datetime
@@ -30,22 +29,21 @@ def books():
 def add_book():
     form=BookForm()
     if request.method=='POST':
-        if form.validate_on_submit():
-            book=Book(
-                title=form.title.data,
-                author=form.author.data,
-                # category=form.category.data,
-                # added_on=form.added_on.data,
-                # done=form.done.data,
-                user_id=current_user
-                )
+        book=Book(
+            title=form.title.data,
+            author=form.author.data,
+            # category=form.category.data,
+            # added_on=form.added_on.data,
+            # done=form.done.data,
+            user_id=current_user.id
+            )
 
-            db.session.add(book)
-            db.session.commit()
-            flash('Book added')
-            return redirect(url_for('books'))
-        else:
-            flash('ERROR. The book not added.')
+        db.session.add(book)
+        db.session.commit()
+        flash('Book added')
+        return redirect(url_for('books'))
+    else:
+        flash('ERROR. The book not added.')
 
     return render_template('add_book.html', form=form)
 
@@ -64,6 +62,7 @@ def read_book(book_id):
 
     db.session.commit()
     return redirect(url_for('books'))
+
 
 @app.route('/delete_book/<int:book_id>')
 @login_required
