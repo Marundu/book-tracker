@@ -15,7 +15,8 @@
         
       <!-- {{ book.title }} by {{ book.author }} // {{ book.category }} // Added on {{ book.added_on }} -->
       <!-- {{ book.title }} by {{ book.author }} // Added on {{ moment(book.added_on).format('LLL') }} -->
-      {{ book.title }} by {{ book.author }} // Added on {{ book.added_on }}
+      <!-- {{ book.title }} by {{ book.author }} // Added on {{ book.added_on.strftime('%B %d %Y - %H:%M:%S') }} -->
+      {{ book.title }} by {{ book.author }} // Added on {{ book.added_on.strftime('%B %d %Y - %H:%M') }}
         
       {% if book.done %}
         </strike>
