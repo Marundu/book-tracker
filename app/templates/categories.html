@@ -2,9 +2,25 @@
 
 {% block content %}
 
-<h2>Add Category</h2>
+<h2>Categories</h2>
 
-{% if form %}
+  <ol>
+
+    {% for category in categories %}
+
+    <li>
+      {{ category.category }}
+      <a href="/delete_category/{{ category.id }}">Delete Category</a>
+    </li>
+
+    {% endfor %}
+
+  </ol>
+
+
+<h3><a href="/add_category">Add Category</a></h3>
+
+<!-- {% if form %}
     
     <form action="{{ url_for('add_category') }}" method="post">
       {{ form.hidden_tag() }}
@@ -16,21 +32,6 @@
 
     </form>
     
-    {% endif %}
-
-<h2>Categories</h2>
-
-  <ol>
-
-    {% for category in categories %}
-
-    <li>
-      {{ category.category }}
-      <a href="/delete_category/{{ category.id }}"> Delete Category</a>
-    </li>
-
-    {% endfor %}
-
-  </ol>
+{% endif %} -->
 
 {% endblock %}

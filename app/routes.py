@@ -1,6 +1,6 @@
 from app import app, db
-from app.forms import BookForm, CategoryForm, EditProfileForm, RegisterForm, LoginForm
-from app.models import Book, User
+from app.forms import BookForm, CategoryForm, EditBookForm, EditProfileForm, RegisterForm, LoginForm
+from app.models import Book, User, Category
 
 from datetime import datetime
 
@@ -32,9 +32,7 @@ def add_book():
         book=Book(
             title=form.title.data,
             author=form.author.data,
-            # category=form.category.data,
-            # added_on=form.added_on.data,
-            # done=form.done.data,
+            #category='',#categories.QuerySelect Something Something Logic,
             user_id=current_user.id
             )
 
@@ -46,6 +44,24 @@ def add_book():
         flash('ERROR. The book not added.')
 
     return render_template('add_book.html', form=form)
+
+
+@app.route('/edit_book/<int:book_id>', methods=['GET', 'POST'])
+@login_required
+def edit_book(book_id):
+    form=EditBookForm()
+    book=Book.query.get(book_id)
+    if request.method=='POST':
+        book.title=form.title.data
+        book.author=form.author.data
+        db.session.commit()
+        flash('Your changes have been saved!')
+        return redirect(url_for('books'))
+
+    elif request.method=='GET':
+        form.title.data=book.title
+        form.author.data=book.author
+    return render_template('edit_book.html', form=form)  
 
 
 @app.route('/done/<int:book_id>')
@@ -81,17 +97,21 @@ def delete_book(book_id):
 @app.route('/categories')
 @login_required
 def categories():
-    categories=Category.query.all(user_id=current_user.id)
+    # categories=Category.query.all(user_id=current_user.id)
+    categories=Category.query.all()
     return render_template('categories.html', categories=categories)
 
 
-@app.route('/add_category', methods=['POST'])
+@app.route('/add_category', methods=['GET', 'POST'])
 @login_required
 def add_category():
     form=CategoryForm()
     if form.validate_on_submit():
-        category=Category(category=form.category.data, user_id=current_user)
-
+        category=Category(
+            category=((form.category.data).lower()).capitalize(),
+            user_id=current_user.id
+            )
+        # category=(category.lower()).capitalize()
         db.session.add(category)
         sb.session.commit()
         flash('Category added')
@@ -104,7 +124,7 @@ def add_category():
 @app.route('/delete_category/<int:category_id>', methods=['GET', 'POST'])
 @login_required
 def delete_category(category_id):
-    category=Category.query.get(category_id)
+    category=Category.query.get(category_id, user_id=current_user.id)
     if not category:
         return redirect('/categories')
 
@@ -180,3 +200,4 @@ def edit_profile():
         form.username.data=current_user.username
         form.about_me.data=current_user.about_me
     return render_template('edit_profile.html', form=form)
+

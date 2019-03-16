@@ -30,7 +30,7 @@ class Book(db.Model):
     id=db.Column(db.Integer, primary_key=True)
     title=db.Column(db.String(100))
     author=db.Column(db.String(50))
-    # category=db.Column(db.String(50))
+    category=db.Column(db.String(50))
     added_on=db.Column(db.DateTime, index=True, default=datetime.utcnow)
     done=db.Column(db.Boolean, default=False)
     user_id=db.Column(db.Integer, db.ForeignKey('users.id'))
@@ -39,16 +39,19 @@ class Book(db.Model):
         # return '<Book: Title - {0}, Author - {1}, Category - {2}>'.format(self.title, self.author, self.category)
         return '<Book: Title - {0}, Author - {1}>'.format(self.title, self.author)
 
-# class Category(db.Model):
 
-    # __tablename__='categories'
+class Category(db.Model):
 
-#     id=db.Column(db.Integer, primary_key=True)
-#     category=db.Column(db.String(30))
-#     book_id=db.Column(db.Integer, db.ForeignKey('books.id'))
+    __tablename__='categories'
 
-#     def __repr__(self):
-#         return '<Category: {0}>'.format(self.category)
+    id=db.Column(db.Integer, primary_key=True)
+    category=db.Column(db.String(30))
+    book_id=db.Column(db.Integer, db.ForeignKey('books.id'))
+    #user_id=db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    def __repr__(self):
+        return '<Category: {0}>'.format(self.category)
+
 
 @login.user_loader
 def load_user(id):

@@ -14,14 +14,16 @@
       {% endif %}
         
       <!-- {{ book.title }} by {{ book.author }} // {{ book.category }} // Added on {{ book.added_on }} -->
+      <!-- {{ book.title }} by {{ book.author }} // Added on {{ moment(book.added_on).format('LLL') }} -->
       {{ book.title }} by {{ book.author }} // Added on {{ book.added_on }}
         
       {% if book.done %}
         </strike>
       {% endif %}
       
-      <a href="/done/{{ book.id }}"> Mark as Read </a> |
-      <a href="/delete_book/{{ book.id }}"> Delete Book </a>
+      <a href="/done/{{ book.id }}">Mark as Read</a> |
+      <a href="/edit_book/{{ book.id }}">Edit Book</a> | 
+      <a href="/delete_book/{{ book.id }}">Delete Book</a>
     </li>
 
     {% endfor %}

@@ -7,14 +7,18 @@
     <form action="{{ url_for('add_book') }}" method="post">
       {{ form.hidden_tag() }}
       
-        {{ form.title.label }}<br>
+        {{ form.title.label }}
         {{ form.title() }}<br>
 
-        {{ form.author.label }}<br>
+        {{ form.author.label }}
         {{ form.author(cols=32, rows=4) }}<br>
 
-       <!-- {{ form.category.label }}<br>
-        {{ form.category() }}<br> -->
+        {{ form.category.label }}
+        <select name="category">
+          {% for category in categories %}
+            <option value="{{ category.id }}">{{ category }}</option>
+          {% endfor %}
+        </select>
         
         {{ form.submit() }}
 
