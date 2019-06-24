@@ -3,6 +3,7 @@ from datetime import datetime
 from flask_wtf import FlaskForm
 from wtforms import BooleanField, PasswordField, StringField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
+from wtforms.ext.sqlalchemy.fields import QuerySelectField
 
 
 class RegisterForm(FlaskForm):
@@ -49,7 +50,8 @@ class EditProfileForm(FlaskForm):
 class BookForm(FlaskForm):
     title=StringField('Title', validators=[DataRequired()])
     author=StringField('Author', validators=[DataRequired()])
-    category=StringField('Category', validators=[DataRequired()])
+    #category=StringField('Category', validators=[DataRequired()])
+    category=QuerySelectField('Category', allow_blank=True)#, validators=[DataRequired()])
     added_on=StringField('Added On', validators=[DataRequired()], default=datetime.utcnow())
     done=BooleanField('Done?', validators=[DataRequired()], default=False)
     submit=SubmitField('Add Book')

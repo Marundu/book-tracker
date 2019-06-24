@@ -1,15 +1,32 @@
 from app import app, db
-from app.forms import BookForm, CategoryForm, EditBookForm, EditProfileForm, RegisterForm, LoginForm
+
+from app.forms import (
+    BookForm, 
+    CategoryForm, 
+    EditBookForm, 
+    EditProfileForm, 
+    RegisterForm, 
+    LoginForm,
+)
+
 from app.models import Book, User, Category
 
 from datetime import datetime
 
-from flask import flash
-from flask import redirect
-from flask import render_template
-from flask import request
-from flask import url_for
-from flask_login import current_user, login_user, login_required, logout_user
+from flask import (
+    flash, 
+    redirect, 
+    render_template,
+    request,
+    url_for,
+)
+
+from flask_login import (
+    current_user, 
+    login_user, 
+    login_required, 
+    logout_user, 
+)
 
 from werkzeug.urls import url_parse
 
@@ -20,8 +37,18 @@ def index():
 @app.route('/books')
 @login_required
 def books():
-    books=Book.query.filter_by(user_id=current_user.id)#.first_or_404()
-    return render_template('books.html', books=books)
+    page=request.args.get('page', 1, type=int)
+    
+    books=Book.query.filter_by(user_id=current_user.id).paginate(
+        page, app.config['BOOKS_PER_PAGE'], False)
+    
+    next_url=url_for('books', page=books.next_num) \
+        if books.has_next else None
+    
+    prev_url=url_for('books', page=books.prev_num) \
+        if books.has_prev else None    
+    
+    return render_template('books.html', books=books.items, next_url=next_url, prev_url=prev_url)
 
 
 @app.route('/add_book', methods=['GET', 'POST'])
@@ -32,7 +59,7 @@ def add_book():
         book=Book(
             title=form.title.data,
             author=form.author.data,
-            #category='',#categories.QuerySelect Something Something Logic,
+            category=form.category.data,#categories.QuerySelect Something Something Logic,
             user_id=current_user.id
             )
 

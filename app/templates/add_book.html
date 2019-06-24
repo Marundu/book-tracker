@@ -15,8 +15,8 @@
 
         {{ form.category.label }}
         <select name="category">
-          {% for category in categories %}
-            <option value="{{ category.id }}">{{ category }}</option>
+          {% for cat in category %}
+            <option value="{{ cat }}">{{ form.category() }}</option>
           {% endfor %}
         </select>
         
