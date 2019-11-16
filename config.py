@@ -1,6 +1,7 @@
 import os
 basedir=os.path.abspath(os.path.dirname(__file__))
 
+
 class Config(object):
     DEBUG=True
     APPLICATION_DIR=os.path.dirname(os.path.realpath(__file__))
@@ -10,3 +11,4 @@ class Config(object):
     
     # pagination
     BOOKS_PER_PAGE=20
+

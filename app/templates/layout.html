@@ -9,8 +9,6 @@
 <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/milligrammod.css') }}">
 
-{{ moment.include_moment() }} 
-
 </head>
 
 <body>
@@ -20,6 +18,20 @@
 <p>Welcome, <a href="{{ url_for('user_profile') }}"> {{ current_user.username }}</a> // <a href="{{ url_for('books') }}">Books</a> // <a href="{{ url_for('add_book') }}">Add book</a>
   // <a href="{{ url_for('logout') }}">Logout</a>
   {% endif %}
+
+    <!-- flash messages -->
+      
+    {% for error_message in get_flashed_messages(category_filter=["error"]) %}
+      <div class="alert alert-danger alert-dismissible">{{ error_message }}</div>
+    {% endfor %}
+      
+    {% for success_message in get_flashed_messages(category_filter=["success"]) %}
+      <div class="alert alert-success alert-dismissible">{{ success_message }}</div>
+    {% endfor %}
+      
+    {% for info_message in get_flashed_messages(category_filter=["info"]) %}
+      <div class="alert alert-info alert-dismissible">{{ info_message }}</div>
+    {% endfor %}
 
   {% block content %} {% endblock %}
 

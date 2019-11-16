@@ -30,6 +30,7 @@ from flask_login import (
 
 from werkzeug.urls import url_parse
 
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -59,16 +60,17 @@ def add_book():
         book=Book(
             title=form.title.data,
             author=form.author.data,
-            category=form.category.data,#categories.QuerySelect Something Something Logic,
+            category=form.category.data, # categories.QuerySelect Something Something Logic,
             user_id=current_user.id
             )
 
         db.session.add(book)
         db.session.commit()
-        flash('Book added')
+        flash('Book added!', 'success')
         return redirect(url_for('books'))
     else:
-        flash('ERROR. The book not added.')
+        # flash('ERROR. The book was not added.', 'error')
+        flash('ERROR. The book was not added.') # This logic needs work
 
     return render_template('add_book.html', form=form)
 
@@ -82,7 +84,7 @@ def edit_book(book_id):
         book.title=form.title.data
         book.author=form.author.data
         db.session.commit()
-        flash('Your changes have been saved!')
+        flash('Your changes have been saved!', 'info')
         return redirect(url_for('books'))
 
     elif request.method=='GET':
@@ -102,6 +104,7 @@ def read_book(book_id):
         book.done=False
     else:
         book.done=True
+        flash('Book read!', 'success')
 
     db.session.commit()
     return redirect(url_for('books'))
@@ -116,7 +119,7 @@ def delete_book(book_id):
 
     db.session.delete(book)
     db.session.commit()
-    flash('Book deleted')
+    flash('Book deleted!', 'info')
 
     return redirect(url_for('books'))
 
@@ -141,7 +144,7 @@ def add_category():
         # category=(category.lower()).capitalize()
         db.session.add(category)
         sb.session.commit()
-        flash('Category added')
+        flash('Category added!', 'info')
 
         return redirect(url_for('categories'))
 
@@ -157,7 +160,7 @@ def delete_category(category_id):
 
     db.session.delete(category)
     db.session.commit()
-    flash('Category deleted')
+    flash('Category deleted!', 'info')
 
     return redirect(url_for('categories'))
 
@@ -173,7 +176,7 @@ def register():
         db.session.add(new_user)
         db.session.commit()
 
-        flash('Karibu, reader!')
+        flash('Karibu, reader!', 'success')
 
         #login_user(new_user)
         return redirect(url_for('books'))
@@ -188,7 +191,7 @@ def login():
     if form.validate_on_submit():
         user=User.query.filter_by(username=form.username.data).first()
         if user is None or not user.check_password(form.password.data):
-            flash('Incorrect credentials')
+            flash('Incorrect username or password!', 'error')
             return redirect(url_for('login'))
         login_user(user, remember=form.remember_me.data)
         next_page=request.args.get('next')
@@ -202,7 +205,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    flash('Until the next time, reader!')
+    flash('Until the next time, reader!', 'info')
     return redirect(url_for('index'))
 
 
@@ -220,7 +223,7 @@ def edit_profile():
         current_user.username=form.username.data
         current_user.about_me=form.about_me.data
         db.session.commit()
-        flash('Your changes have been saved!')
+        flash('Your changes have been saved!', 'info')
         return redirect(url_for('user_profile'))
 
     elif request.method=='GET':
