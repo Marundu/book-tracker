@@ -18,6 +18,8 @@ from wtforms.validators import (
 
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 
+from app.models import User
+
 
 class RegisterForm(FlaskForm):
     username=StringField('Username', validators=[DataRequired()])
