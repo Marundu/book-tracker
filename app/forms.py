@@ -14,6 +14,7 @@ from wtforms.validators import (
     Email, 
     EqualTo, 
     Length,
+    # ValidationError, # uncomment this in case of an error on line 42
 ) 
 
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
